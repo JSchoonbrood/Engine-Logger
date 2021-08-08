@@ -51,6 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.Slot(int)
     def switch_to_checklist(self, job_id):
         self.checklist = checklist.Widget(directory, job_id, self)
+        self.checklist.title_signal.connect(self.update_title)
         self.stack.addWidget(self.checklist)
         self.stack.setCurrentWidget(self.checklist)
         new_title = database.Operations(directory).get_title(job_id)
@@ -62,10 +63,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stack.removeWidget(self.checklist)
         self.setWindowTitle("Engine Logger - Menu")
 
+    @QtCore.Slot(str)
+    def update_title(self, new_title):
+        self.setWindowTitle("Engine Logger - " + new_title)
+
+
 def backend():
     Path(directory).mkdir(parents=True, exist_ok=True)
     Path(os.path.join(directory, 'Manuals')).mkdir(parents=True, exist_ok=True)
     Path(os.path.join(directory, 'Gallery')).mkdir(parents=True, exist_ok=True) 
+    
     if not (database.Operations(directory).locate_database()):
         database.Operations(directory).create_database()
     database.Operations(directory).backup_database()
