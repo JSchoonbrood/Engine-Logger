@@ -22,11 +22,11 @@ class Widget(QtWidgets.QWidget):
         self.read_database()
 
     def constrct_ui(self):
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
-        self.gridLayout.setContentsMargins(5, 5, 5, 5)
-        self.gridLayout.setSpacing(5)
-        self.gridLayout.setObjectName("gridLayout")
+        self.grid_layout = QtWidgets.QGridLayout()
+        self.grid_layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
+        self.grid_layout.setContentsMargins(5, 5, 5, 5)
+        self.grid_layout.setSpacing(5)
+        self.grid_layout.setObjectName("grid_layout")
 
         # Header Layout
         self.header_widget = QtWidgets.QWidget()
@@ -69,7 +69,7 @@ class Widget(QtWidgets.QWidget):
         self.header_layout.addWidget(self.settings_button, 0, 4, 1, 1)
 
         self.header_widget.setLayout(self.header_layout)
-        self.gridLayout.addWidget(self.header_widget, 0, 0, 1, 5)
+        self.grid_layout.addWidget(self.header_widget, 0, 0, 1, 5)
 
         # Main Body
 
@@ -87,7 +87,7 @@ class Widget(QtWidgets.QWidget):
 
         self.engines.clicked.connect(self.send_data)
 
-        self.gridLayout.addWidget(self.engines, 1, 0, 1, 5)
+        self.grid_layout.addWidget(self.engines, 1, 0, 1, 5)
 
         # Footer
 
@@ -96,9 +96,9 @@ class Widget(QtWidgets.QWidget):
         self.add_button.setText("Add Job")
         self.add_button.clicked.connect(self.call_window)
 
-        self.gridLayout.addWidget(self.add_button, 2, 0, 1, 5)
+        self.grid_layout.addWidget(self.add_button, 2, 0, 1, 5)
 
-        self.setLayout(self.gridLayout) # Add This Line Manually
+        self.setLayout(self.grid_layout) # Add This Line Manually
         return
 
     def table_item(self, item):
