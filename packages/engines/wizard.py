@@ -30,32 +30,44 @@ class AddWindow(QtWidgets.QMainWindow):
 
         self.title = QtWidgets.QLabel("Title *")
         self.gridLayout.addWidget(self.title, 0, 0, 1, 1)
+
+        self.vehicle = QtWidgets.QLabel("Car")
+        self.gridLayout.addWidget(self.vehicle, 1, 0, 1, 1)
         
-        self.engine = QtWidgets.QLabel("Engine Code")
-        self.gridLayout.addWidget(self.engine, 1, 0, 1, 1)
-        
-        self.vehicle = QtWidgets.QLabel("Vehicle")
-        self.gridLayout.addWidget(self.vehicle, 2, 0, 1, 1)
-        
+        self.engine = QtWidgets.QLabel("Engine")
+        self.gridLayout.addWidget(self.engine, 2, 0, 1, 1)
+
+        self.build_date = QtWidgets.QLabel("Build Date")
+        self.gridLayout.addWidget(self.build_date, 3, 0, 1, 1)
+
+        self.built_by = QtWidgets.QLabel("Built By")
+        self.gridLayout.addWidget(self.built_by, 4, 0, 1, 1)
+
         self.customer = QtWidgets.QLabel("Customer")
-        self.gridLayout.addWidget(self.customer, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.customer, 5, 0, 1, 1)
 
         self.title_entry = QtWidgets.QLineEdit()
         self.gridLayout.addWidget(self.title_entry, 0, 1, 1, 1)
 
-        self.engine_entry = QtWidgets.QLineEdit()
-        self.gridLayout.addWidget(self.engine_entry, 1, 1, 1, 1)
-
         self.vehicle_entry = QtWidgets.QLineEdit()
-        self.gridLayout.addWidget(self.vehicle_entry, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.vehicle_entry, 1, 1, 1, 1)
+
+        self.engine_entry = QtWidgets.QLineEdit()
+        self.gridLayout.addWidget(self.engine_entry, 2, 1, 1, 1)
+
+        self.build_date_entry = QtWidgets.QLineEdit()
+        self.gridLayout.addWidget(self.build_date_entry, 3, 1, 1, 1)
+
+        self.built_by_entry = QtWidgets.QLineEdit()
+        self.gridLayout.addWidget(self.built_by_entry, 4, 1, 1, 1)
 
         self.customer_entry = QtWidgets.QLineEdit()
-        self.gridLayout.addWidget(self.customer_entry, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.customer_entry, 5, 1, 1, 1)
 
         self.add_button = QtWidgets.QPushButton()
         self.add_button.clicked.connect(self.populate_database)
         self.add_button.setText("Add Job")
-        self.gridLayout.addWidget(self.add_button, 4, 0, 1, 2)
+        self.gridLayout.addWidget(self.add_button, 6, 0, 1, 2)
 
         self.setCentralWidget(self.gridLayoutWidget)
 
@@ -63,14 +75,16 @@ class AddWindow(QtWidgets.QMainWindow):
         connection = sqlite3.connect(self.database)
 
         title = self.title_entry.text()
-        engine = self.engine_entry.text()
         vehicle = self.vehicle_entry.text()
+        engine = self.engine_entry.text()
+        build_date = self.build_date_entry.text()
+        built_by = self.built_by_entry.text()
         customer = self.customer_entry.text()
 
         if not title == "":
             cursor = connection.cursor()
             cursor.execute(
-                '''INSERT INTO Engine(title, engine, car, customer)VALUES(?, ?, ?, ?)''',(title, engine, vehicle, customer)
+                '''INSERT INTO Engine(title, car, engine, build_date, built_by, customer)VALUES(?, ?, ?, ?, ?, ?)''',(title, vehicle, engine, build_date, built_by, customer)
             )
             connection.commit()
             connection.close()
@@ -79,6 +93,8 @@ class AddWindow(QtWidgets.QMainWindow):
             self.engine_entry.clear()
             self.vehicle_entry.clear()
             self.customer_entry.clear()
+            self.build_date_entry.clear()
+            self.built_by_entry.clear()
 
             self.db_signal.emit()
             
