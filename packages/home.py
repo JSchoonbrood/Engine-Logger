@@ -78,8 +78,9 @@ class Widget(QtWidgets.QWidget):
         self.engines.setFocusPolicy(QtCore.Qt.NoFocus)
         self.engines.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         self.engines.verticalHeader().setVisible(False)
-        self.engines.setColumnCount(5)
-        self.engines.setHorizontalHeaderLabels(['ID', 'Title', 'Engine Code', 'Car', 'Customer'])
+
+        self.engines.setColumnCount(7)
+        self.engines.setHorizontalHeaderLabels(['ID', 'Title', 'Car', 'Engine', 'Build Date', 'Built By', 'Customer'])
 
         header = self.engines.horizontalHeader()
         header.setFont(table_header_font)
@@ -114,7 +115,7 @@ class Widget(QtWidgets.QWidget):
         index = 0
         for row in cursor.fetchall():
             self.engines.setRowCount(index+1)
-            for i in range(5):
+            for i in range(7):
                 self.engines.setItem(index, i, self.table_item(str(row[i])))
             index += 1
         
