@@ -65,6 +65,7 @@ class Operations():
                                                 FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
         cursor.execute('''CREATE TABLE PistonData(id INTEGER PRIMARY KEY,
+                                                    job_id INTEGER,
                                                     piston_number INTEGER,
                                                     piston_diameter TEXT,
                                                     piston_weight TEXT,
@@ -79,7 +80,7 @@ class Operations():
                                                     oil_ring_thickness TEXT,
                                                     wristpin_weight TEXT,
                                                     wristpin_od TEXT,
-                                                    job_id INTEGER FOREIGN KEY REFERENCES Jobs(job_id))''')
+                                                    FOREIGN KEY (job_id) REFERENCES Pistons(job_id))''')
 
         cursor.execute('''CREATE TABLE ConRods(job_id INTEGER PRIMARY KEY,
                                                 rod_make TEXT,
@@ -89,27 +90,34 @@ class Operations():
                                                 FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
         cursor.execute('''CREATE TABLE ConRodData(id INTEGER PRIMARY KEY,
+                                                    job_id INTEGER,
                                                     rod_number INTEGER,
                                                     rod_weight TEXT,
-                                                    rod_id TEXT,
                                                     smallend_id TEXT,
                                                     bigend_id TEXT,
                                                     smallend_od TEXT,
-                                                    bigend_od TEXT,
-                                                    job_id INTEGER
-                                                    FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
+                                                    bigend_od TEXT,  
+                                                    FOREIGN KEY (job_id) REFERENCES ConRods(job_id))''')
 
-        cursor.execute('''CREATE TABLE Balancing(job_id INTEGER PRIMARY KEY,
+        cursor.execute('''CREATE TABLE BalancingData(id INTEGER PRIMARY KEY,
+                                                    job_id INTEGER,
+                                                    piston_number INTEGER,
                                                     pistons_weight TEXT,
+                                                    rod_number INTEGER,
                                                     rod_weight TEXT,
                                                     small_end_weight TEXT,
                                                     big_end_weight TEXT,
+                                                    wristpin_id INTEGER,
                                                     wristpin_weight TEXT,
+                                                    circlips_id INTEGER,
                                                     circlips_weight TEXT,
                                                     small_end_total TEXT,
                                                     big_end_total TEXT,
+                                                    bearings_weight TEXT,
                                                     notes TEXT,
-                                                    FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
+                                                    FOREIGN KEY (job_id) REFERENCES Jobs(job_id)
+                                                    FOREIGN KEY (piston_number) REFERENCES PistonData(piston_number)
+                                                    FOREIGN KEY (rod_number) REFERENCES ConRodData(rod_number))''')
 
         cursor.execute('''CREATE TABLE Crank(job_id INTEGER PRIMARY KEY,
                                                 crank_make TEXT,
@@ -118,17 +126,22 @@ class Operations():
                                                 main_bearing_oversize TEXT,
                                                 main_bearing_make TEXT,
                                                 main_bearing_type TEXT,
-                                                main_bearing_thickness TEXT,
-                                                main_bearing_clearance TEXT,
                                                 crank_endfloat TEXT,
                                                 rod_bolt_stretch TEXT,
                                                 big_end_journal_size TEXT,
                                                 big_end_bearing_oversize TEXT,
                                                 big_end_make TEXT,
-                                                big_end_bearing_thickness TEXT,
-                                                big_end_bearing_clearance TEXT,
                                                 notes TEXT,
                                                 FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
+
+        cursor.execute('''CREATE TABLE CrankData(id INTEGER PRIMARY KEY,
+                                                    job_id INTEGER,
+                                                    journal_type TEXT,
+                                                    journal_number INTEGER,
+                                                    journal_size TEXT,
+                                                    bearing_thickness TEXT,
+                                                    bearing_clearance TEXT,
+                                                    FOREIGN KEY (job_id) REFERENCES Crank(job_id))''')
 
         cursor.execute('''CREATE TABLE OilPump(job_id INTEGER PRIMARY KEY,
                                                 pump_type TEXT,
@@ -138,17 +151,17 @@ class Operations():
                                                 notes TEXT,
                                                 FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
-        cursor.execute('''CREATE TABLE BlockParts()''')
+        #cursor.execute('''CREATE TABLE BlockParts()''')
 
-        cursor.execute('''CREATE TABLE ExternalBlockCosts()''')
+        #cursor.execute('''CREATE TABLE ExternalBlockCosts()''')
 
-        cursor.execute('''CREATE TABLE CylinderHead()''')
+        #cursor.execute('''CREATE TABLE CylinderHead()''')
 
-        cursor.execute('''CREATE TABLE IntakeCam1()''')
+        #cursor.execute('''CREATE TABLE IntakeCam1()''')
 
-        cursor.execute('''CREATE TABLE ExhCam1()''')
+        #cursor.execute('''CREATE TABLE ExhCam1()''')
 
-        cursor.execute('''CREATE TABLE Carburettor()''')
+        #cursor.execute('''CREATE TABLE Carburettor()''')
 
         connection.commit()
         connection.close()
