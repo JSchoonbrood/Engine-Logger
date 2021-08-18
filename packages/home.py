@@ -111,7 +111,7 @@ class Widget(QtWidgets.QWidget):
         connection = sqlite3.connect(self.database)
         cursor = connection.cursor()
 
-        cursor.execute('''SELECT * FROM Engine''')
+        cursor.execute('''SELECT * FROM Jobs''')
         index = 0
         for row in cursor.fetchall():
             self.engines.setRowCount(index+1)
