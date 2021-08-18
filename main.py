@@ -15,6 +15,7 @@ from packages import home
 from packages.backend import database
 from packages.backend import config
 from packages.engines import checklist
+from packages.backend import connection
 from qt_material import apply_stylesheet
 
 if sys.platform == "darwin" or sys.platform == "darwin":
@@ -54,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.checklist.title_signal.connect(self.update_title)
         self.stack.addWidget(self.checklist)
         self.stack.setCurrentWidget(self.checklist)
-        new_title = database.Operations(directory).get_title(job_id)
+        new_title = self.get_title(job_id)
         self.setWindowTitle(("Engine Logger - " + new_title))
 
     @QtCore.Slot()
@@ -66,6 +67,14 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.Slot(str)
     def update_title(self, new_title):
         self.setWindowTitle("Engine Logger - " + new_title)
+
+    def get_title(self, job_id):
+        database = connection.Query(directory, self)
+        cursor = database.query('''SELECT title FROM Jobs WHERE job_id = ?''', (job_id,))
+
+        title = cursor.fetchone()
+        title = str(title).strip("'(),")
+        return str(title)
 
 
 def backend():
