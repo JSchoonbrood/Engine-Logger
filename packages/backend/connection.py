@@ -12,7 +12,7 @@ class Query():
         if params == None:
             return self.cursor.execute(query)
         else:
-            return self.cursor.execute(query, (params,))
+            return self.cursor.execute(query, params)
 
     def close(self):
         self.cursor.close()
