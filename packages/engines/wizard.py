@@ -84,7 +84,7 @@ class AddWindow(QtWidgets.QMainWindow):
         if not title == "":
             cursor = connection.cursor()
             cursor.execute(
-                '''INSERT INTO Engine(title, car, engine, build_date, built_by, customer)VALUES(?, ?, ?, ?, ?, ?)''',(title, vehicle, engine, build_date, built_by, customer)
+                '''INSERT INTO Jobs(title, car, engine, build_date, built_by, customer)VALUES(?, ?, ?, ?, ?, ?)''', (title, vehicle, engine, build_date, built_by, customer)
             )
             connection.commit()
             connection.close()

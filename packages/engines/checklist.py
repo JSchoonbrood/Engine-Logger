@@ -170,7 +170,7 @@ class Widget(QtWidgets.QWidget):
 
     def populate_menu(self):
         database = connection.Query(self.directory, self)
-        cursor = database.query('''SELECT * From Engine''')
+        cursor = database.query('''SELECT * From Jobs''')
 
         remove_char = "()',"
 
@@ -200,7 +200,7 @@ class Widget(QtWidgets.QWidget):
         id = self.menu.itemData(index, self.IdRole)
         self.job_id = id
         database = connection.Query(self.directory, self)
-        cursor = database.query('''SELECT * From Engine WHERE id = ?''', self.job_id)
+        cursor = database.query('''SELECT * From Jobs WHERE job_id = ?''', (self.job_id,))
 
         data = cursor.fetchone()
         self.title_signal.emit(str(data[1]))

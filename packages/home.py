@@ -2,6 +2,7 @@ import sqlite3
 import os
 from PySide2 import QtCore, QtGui, QtWidgets
 from packages.engines import wizard
+from packages.backend import connection
 
 button_font = QtGui.QFont()
 button_font.setPointSize(17)
@@ -108,10 +109,9 @@ class Widget(QtWidgets.QWidget):
         return new_item
 
     def read_database(self):
-        connection = sqlite3.connect(self.database)
-        cursor = connection.cursor()
-
-        cursor.execute('''SELECT * FROM Jobs''')
+        database = connection.Query(self.directory, self)
+        cursor = database.query('''SELECT * From Jobs''')
+        
         index = 0
         for row in cursor.fetchall():
             self.engines.setRowCount(index+1)
@@ -119,7 +119,7 @@ class Widget(QtWidgets.QWidget):
                 self.engines.setItem(index, i, self.table_item(str(row[i])))
             index += 1
         
-        cursor.close()
+        database.close()
 
         self.engines.setColumnHidden(0, True)
         return
