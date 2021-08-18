@@ -166,12 +166,3 @@ class Operations():
         connection.commit()
         connection.close()
         return
-
-    def get_title(self, job_id):
-        connection = sqlite3.connect(self.database)
-        cursor = connection.cursor()
-        cursor.execute('''SELECT title FROM Engine WHERE job_id = ?''', (job_id,)) 
-
-        title = cursor.fetchone()
-        title = str(title).strip("'(),")
-        return str(title)
