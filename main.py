@@ -16,6 +16,7 @@ from packages.backend import database
 from packages.backend import config
 from packages.engines import checklist
 from packages.backend import connection
+from packages.data import block
 from qt_material import apply_stylesheet
 
 if sys.platform == "darwin" or sys.platform == "darwin":
@@ -52,7 +53,9 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.Slot(int)
     def switch_to_checklist(self, job_id):
         self.checklist = checklist.Widget(directory, job_id, self)
+        self.checklist.widget_signal.connect(self.switch_to_data)
         self.checklist.title_signal.connect(self.update_title)
+        
         self.stack.addWidget(self.checklist)
         self.stack.setCurrentWidget(self.checklist)
         new_title = self.get_title(job_id)
@@ -63,6 +66,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stack.setCurrentWidget(self.home)
         self.stack.removeWidget(self.checklist)
         self.setWindowTitle("Engine Logger - Menu")
+
+    @QtCore.Slot(object)
+    def switch_to_data(self, data):
+        datawidget = data[0]
+        job_id = data[1]
+        if datawidget == "Block":
+            self.block = block.Widget(directory, job_id, self)
+            self.stack.addWidget(self.block)
+            self.stack.setCurrentWidget(self.block)
 
     @QtCore.Slot(str)
     def update_title(self, new_title):
