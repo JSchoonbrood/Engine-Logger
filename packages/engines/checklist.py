@@ -11,6 +11,7 @@ main_font.setPointSize(17)
 class Widget(QtWidgets.QWidget):
     IdRole = QtCore.Qt.UserRole + 1000
     title_signal = QtCore.Signal(str)
+    widget_signal = QtCore.Signal(object)
     def __init__(self, directory, job_id, parent):
         super(Widget, self).__init__()
         self.directory = str(directory)
@@ -19,7 +20,6 @@ class Widget(QtWidgets.QWidget):
         self.populate_menu()
 
     def constrct_ui(self):
-
         self.vertical_spacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
         self.grid_layout = QtWidgets.QGridLayout()
@@ -60,7 +60,10 @@ class Widget(QtWidgets.QWidget):
 
         self.block_checkbox = QtWidgets.QCheckBox()
         self.block_layout.addWidget(self.block_checkbox, 1, 0, 1, 1)
-        self.block_clearances = QtWidgets.QLabel("Block")
+        self.block_clearances = QtWidgets.QPushButton("Block")
+        self.block_clearances.setObjectName("Block")
+        self.block_clearances.clicked.connect(lambda: self.widget_change(self.block_clearances))
+        self.block_clearances.setMaximumSize(self.block_clearances.sizeHint())
         self.block_clearances.setFont(main_font)
         self.block_layout.addWidget(self.block_clearances, 1, 1, 1, 1)
 
@@ -208,3 +211,7 @@ class Widget(QtWidgets.QWidget):
         database.close()
 
         # Update Ticked Checkboxes, Times, Prices
+
+    def widget_change(self, object):
+        widget_name = object.objectName()
+        self.widget_signal.emit((widget_name, self.job_id))
