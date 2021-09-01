@@ -50,6 +50,14 @@ class Operations():
                                             cc TEXT,
                                             FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
+        cursor.execute('''CREATE TABLE BlockData(id INTEGER PRIMARY KEY,
+                                                    job_id INTEGER,
+                                                    bore_top_measurement TEXT,
+                                                    bore_middle_measurement TEXT,
+                                                    bore_small_measurement TEXT,
+                                                    bore_oval TEXT,
+                                                    FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
+
         cursor.execute('''CREATE TABLE Pistons(job_id INTEGER PRIMARY KEY,
                                                 piston_make TEXT,
                                                 piston_part_number TEXT,
