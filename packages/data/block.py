@@ -123,6 +123,7 @@ class Widget(QtWidgets.QWidget):
         self.table_data = QtWidgets.QTableWidget()
         self.setup_table()
         self.grid_layout.addWidget(self.table_data, 4, 0, 1, 6)
+        self.cylinders_input.currentIndexChanged.connect(self.setup_table)
 
         self.setLayout(self.grid_layout)
 
