@@ -159,7 +159,37 @@ class Operations():
                                                 notes TEXT,
                                                 FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
-        #cursor.execute('''CREATE TABLE BlockParts()''')
+
+        cursor.execute('''CREATE TABLE BlockParts(job_id INTEGER PRIMARY KEY,
+                                                    block TEXT,
+                                                    seal_adapter TEXT,
+                                                    primary_fastner TEXT,
+                                                    secondary_fastner TEXT,
+                                                    freeze_plug TEXT,
+                                                    cam_bearing TEXT, 
+                                                    head_dowel TEXT,
+                                                    bellhousing_dowel TEXT,
+                                                    timingcover_dowel TEXT,
+                                                    maincap_dowel TEXT,
+                                                    oilpump_dowel TEXT,
+                                                    head_dowel TEXT,
+                                                    rearmainseal_adapter TEXT,
+                                                    rearmainseal TEXT,
+                                                    mainbearing TEXT,
+                                                    rod TEXT,
+                                                    piston TEXT,
+                                                    rings TEXT,
+                                                    oilpump TEXT,
+                                                    pickuptube TEXT,
+                                                    driverod TEXT,
+                                                    oilpump_bolt TEXT,
+                                                    oilpan TEXT,
+                                                    flywheel TEXT,
+                                                    flywheel_bolt TEXT,
+                                                    oilpan_gasket TEXT,
+                                                    harmonic_balancer TEXT,
+                                                    balancedbolt TEXT,
+                                                    FOREIGN KEY (job_id) REFERENCES Jobs(job_id))''')
 
         #cursor.execute('''CREATE TABLE ExternalBlockCosts()''')
 
