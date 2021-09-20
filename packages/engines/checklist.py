@@ -1,6 +1,7 @@
 import os
 from PySide2 import QtCore, QtGui, QtWidgets
 from packages.backend import connection
+from packages.data import block
 
 title_font = QtGui.QFont()
 title_font.setPointSize(18)
@@ -11,7 +12,6 @@ main_font.setPointSize(17)
 class Widget(QtWidgets.QWidget):
     IdRole = QtCore.Qt.UserRole + 1000
     title_signal = QtCore.Signal(str)
-    widget_signal = QtCore.Signal(object)
     def __init__(self, directory, job_id, parent):
         super(Widget, self).__init__()
         self.directory = str(directory)
@@ -20,93 +20,118 @@ class Widget(QtWidgets.QWidget):
         self.populate_menu()
 
     def constrct_ui(self):
+        # Miscellaneous 
+
         self.spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
+        # Layouts
+
         self.grid_layout = QtWidgets.QGridLayout()
-        self.grid_layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.grid_layout.setContentsMargins(5, 5, 5, 5)
         self.grid_layout.setSpacing(5)
-        self.grid_layout.setObjectName("grid_layout")
+
+        self.block_widget = QtWidgets.QWidget()
+        self.block_layout = QtWidgets.QVBoxLayout()
+        self.block_layout.setContentsMargins(0, 0, 0, 0)
+        self.block_layout.setSpacing(1)
+
+        # Job Switcher
 
         self.menu = QtWidgets.QComboBox()
         self.menu.setFont(title_font)
         self.menu_model = QtGui.QStandardItemModel()
         self.menu.currentIndexChanged.connect(self.id_updated)
 
-        # Engine Block
-
-        self.block_widget = QtWidgets.QWidget()
-        self.block_layout = QtWidgets.QGridLayout()
-        self.block_layout.setColumnMinimumWidth(0, 1)
+        # Menu Buttons
 
         self.block_clearances = QtWidgets.QPushButton("Block")
         self.block_clearances.setObjectName("Block")
         self.block_clearances.clicked.connect(lambda: self.widget_change(self.block_clearances))
-        self.block_clearances.setMaximumSize(self.block_clearances.sizeHint())
         self.block_clearances.setFont(main_font)
-        self.block_layout.addWidget(self.block_clearances, 1, 0, 1, 1)
 
-        self.piston_label = QtWidgets.QLabel("Pistons")
+        self.piston_label = QtWidgets.QPushButton("Pistons")
         self.piston_label.setFont(main_font)
-        self.block_layout.addWidget(self.piston_label, 2, 0, 1, 1)
-
-        self.conrods_label = QtWidgets.QLabel("ConRods")
+        
+        self.conrods_label = QtWidgets.QPushButton("ConRods")
         self.conrods_label.setFont(main_font)
-        self.block_layout.addWidget(self.conrods_label, 3, 0, 1, 1)
-
-        self.balancing_label = QtWidgets.QLabel("Balancing")
+        
+        self.balancing_label = QtWidgets.QPushButton("Balancing")
         self.balancing_label.setFont(main_font)
-        self.block_layout.addWidget(self.balancing_label, 4, 0, 1, 1)
-
-        self.crank_label = QtWidgets.QLabel("Crank & Bearings")
+        
+        self.crank_label = QtWidgets.QPushButton("Crank / Bearings")
         self.crank_label.setFont(main_font)
-        self.block_layout.addWidget(self.crank_label, 5, 0, 1, 1)
-
-        self.oilpump_label = QtWidgets.QLabel("Oil Pump")
+        
+        self.oilpump_label = QtWidgets.QPushButton("Oil Pump")
         self.oilpump_label.setFont(main_font)
-        self.block_layout.addWidget(self.oilpump_label, 6, 0, 1, 1)
+        
+        self.cylhead_label = QtWidgets.QPushButton("Cylinder Head")
+        self.cylhead_label.setFont(main_font)
+        
+        self.intcam_label = QtWidgets.QPushButton("Intake Cam")
+        self.intcam_label.setFont(main_font)
+        
+        self.exhcam_label = QtWidgets.QPushButton("Exhaust Cam")
+        self.exhcam_label.setFont(main_font)
 
-        #self.parts_used = QtWidgets.QLabel("Parts Cost")
-        #self.parts_used.setFont(main_font)
-        #self.block_layout.addWidget(self.parts_used, 7, 2, 1, 1)
+        # Main Window Stack
 
-        #self.external_costs = QtWidgets.QLabel("List Of External Costs")
-        #self.external_costs.setFont(main_font)
-        #self.block_layout.addWidget(self.external_costs, 8, 1, 1, 1)
+        self.stack = QtWidgets.QStackedWidget()
 
-        #self.block_layout.addItem(self.vertical_spacer, 9, 0, 1, 4)
-        #self.block_layout.addItem(self.vertical_spacer, 0, 2, 8, 1)
+        # Main Windows
+
+        self.block = block.Widget(self.directory, self.job_id, self)
+
+        self.stack.addWidget(self.block)
+
+        self.stack.setCurrentWidget(self.block)
+
+        # Scale Buttons
+        
+        screen = QtWidgets.QApplication.primaryScreen() # .instance() alternative
+        width = screen.availableGeometry().width()
+        height = screen.availableGeometry().height()
+        
+        button_width = width/9
+
+        self.block_clearances.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.piston_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.conrods_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.balancing_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.crank_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.oilpump_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.cylhead_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.intcam_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.exhcam_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+
+        self.block_clearances.setMaximumWidth(button_width)
+        self.piston_label.setMaximumWidth(button_width)
+        self.conrods_label.setMaximumWidth(button_width)
+        self.balancing_label.setMaximumWidth(button_width)
+        self.crank_label.setMaximumWidth(button_width)
+        self.oilpump_label.setMaximumWidth(button_width)
+        self.cylhead_label.setMaximumWidth(button_width)
+        self.intcam_label.setMaximumWidth(button_width)
+        self.exhcam_label.setMaximumWidth(button_width)
+
+        # Add Widgets To Layout
+
+        self.block_layout.addWidget(self.block_clearances)
+        self.block_layout.addWidget(self.piston_label)
+        self.block_layout.addWidget(self.conrods_label)
+        self.block_layout.addWidget(self.balancing_label)
+        self.block_layout.addWidget(self.crank_label)
+        self.block_layout.addWidget(self.oilpump_label)
+        self.block_layout.addWidget(self.cylhead_label)
+        self.block_layout.addWidget(self.intcam_label)
+        self.block_layout.addWidget(self.exhcam_label)
+        
+        # Set Layouts
 
         self.block_widget.setLayout(self.block_layout)
-        self.grid_layout.addWidget(self.block_widget, 1, 2, 1, 1)
-
-        # Cylinder Head
-        self.head_widget = QtWidgets.QWidget()
-        self.head_layout = QtWidgets.QGridLayout()
-        self.head_layout.setColumnMinimumWidth(0, 1)
-
-        self.cylhead_label = QtWidgets.QLabel("Cylinder Head")
-        self.cylhead_label.setFont(main_font)
-        self.head_layout.addWidget(self.cylhead_label, 1, 0, 1, 1)
-
-        self.intcam_label = QtWidgets.QLabel("Intake Cam")
-        self.intcam_label.setFont(main_font)
-        self.head_layout.addWidget(self.intcam_label, 2, 0, 1, 1)
-
-        self.exhcam_label = QtWidgets.QLabel("Exhaust Cam")
-        self.exhcam_label.setFont(main_font)
-        self.head_layout.addWidget(self.exhcam_label, 3, 0, 1, 1)
-
-        #self.head_layout.addItem(self.vertical_spacer, 9, 0, 1, 4)
-        #self.head_layout.addItem(self.vertical_spacer, 0, 2, 8, 1)
-
-        self.head_widget.setLayout(self.head_layout)
-        self.grid_layout.addWidget(self.head_widget, 2, 2, 1, 1)
-
-        self.grid_layout.addItem(self.spacer, 1, 1, 3, 1)
 
         self.grid_layout.addWidget(self.menu, 0, 0, 1, 3)
-        #self.grid_layout.addItem(self.vertical_spacer, 3, 0, 1, 3)
+        self.grid_layout.addWidget(self.stack, 1, 1, 1, 1)
+        self.grid_layout.addWidget(self.block_widget, 1, 2, 1, 1)
 
         self.setLayout(self.grid_layout)
 
@@ -152,5 +177,4 @@ class Widget(QtWidgets.QWidget):
         # Update Ticked Checkboxes, Times, Prices
 
     def widget_change(self, object):
-        widget_name = object.objectName()
-        self.widget_signal.emit((widget_name, self.job_id))
+        print ("Done")
