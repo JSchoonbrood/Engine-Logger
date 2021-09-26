@@ -2,6 +2,7 @@ import os
 from PySide2 import QtCore, QtGui, QtWidgets
 from packages.backend import connection
 from packages.data import block
+from packages.data import pistons
 
 title_font = QtGui.QFont()
 title_font.setPointSize(18)
@@ -50,6 +51,8 @@ class Widget(QtWidgets.QWidget):
         self.block_clearances.setFont(main_font)
 
         self.piston_label = QtWidgets.QPushButton("Pistons")
+        self.piston_label.setObjectName("Piston")
+        self.piston_label.clicked.connect(lambda: self.widget_change(self.piston_label))
         self.piston_label.setFont(main_font)
         
         self.conrods_label = QtWidgets.QPushButton("ConRods")
@@ -73,15 +76,17 @@ class Widget(QtWidgets.QWidget):
         self.exhcam_label = QtWidgets.QPushButton("Exhaust Cam")
         self.exhcam_label.setFont(main_font)
 
+        # Main Windows
+
+        self.block = block.Widget(self.directory, self.job_id, self)
+        self.pistons = pistons.Widget(self.directory, self.job_id, self)
+
         # Main Window Stack
 
         self.stack = QtWidgets.QStackedWidget()
 
-        # Main Windows
-
-        self.block = block.Widget(self.directory, self.job_id, self)
-
         self.stack.addWidget(self.block)
+        self.stack.addWidget(self.pistons)
 
         self.stack.setCurrentWidget(self.block)
 
@@ -91,7 +96,7 @@ class Widget(QtWidgets.QWidget):
         width = screen.availableGeometry().width()
         height = screen.availableGeometry().height()
         
-        button_width = width/9
+        button_width = width/7
 
         self.block_clearances.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         self.piston_label.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
@@ -177,4 +182,9 @@ class Widget(QtWidgets.QWidget):
         # Update Ticked Checkboxes, Times, Prices
 
     def widget_change(self, object):
-        print ("Done")
+        page = object.objectName()
+        
+        if page == "Block":
+            self.stack.setCurrentWidget(self.block)
+        elif page == "Piston":
+            self.stack.setCurrentWidget(self.pistons)
