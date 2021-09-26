@@ -19,3 +19,5 @@ class Widget(QtWidgets.QWidget):
         self.grid_layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.grid_layout.setContentsMargins(5, 5, 5, 5)
         self.grid_layout.setSpacing(5)
+
+        self.setLayout(self.grid_layout)
