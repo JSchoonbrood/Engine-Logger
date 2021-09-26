@@ -1,13 +1,13 @@
 """
 @Author: Jake Schoonbrood
 @Application: Engine Logger
-@Version: V1.000
+@Version: V1.000 Beta
 @PythonVersion: Python 3.9.6 64Bit
 """
 
 import os
 import sys
-import bcrypt
+#import bcrypt
 
 from PySide2 import QtCore, QtGui, QtWidgets
 from pathlib import Path
@@ -93,7 +93,7 @@ def backend():
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    apply_stylesheet(app, theme='dark_red.xml')
+    #apply_stylesheet(app, theme='dark_red.xml')
 
     window = MainWindow(None)
     window.show()
