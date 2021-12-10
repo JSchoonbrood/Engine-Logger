@@ -16,7 +16,7 @@ from packages.backend import database
 from packages.backend import config
 from packages.engines import checklist
 from packages.backend import connection
-from qt_material import apply_stylesheet
+#from qt_material import apply_stylesheet
 
 if sys.platform == "darwin" or sys.platform == "darwin":
     directory = '/Library/Preferences/JSchoonbrood/EngineLogger/'
