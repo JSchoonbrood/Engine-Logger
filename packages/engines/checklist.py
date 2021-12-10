@@ -21,7 +21,7 @@ class Widget(QtWidgets.QWidget):
         self.populate_menu()
 
     def constrct_ui(self):
-        # Miscellaneous 
+        # Miscellaneous
 
         self.spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
