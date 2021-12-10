@@ -26,15 +26,24 @@ elif sys.platform == "win32":
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        
         self.construct_ui()
 
     def construct_ui(self):
+       
+        # Displays on Primary Monitor
+        '''
         resolution = QtWidgets.QApplication.primaryScreen().availableGeometry()
         self.setGeometry(resolution)
 
         self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
                   (resolution.height() / 2) - (self.frameSize().height() / 2))
+        '''
 
+        # Displays on Secondary Monitor
+        self.setMinimumSize(QtCore.QSize(0, 0))
+        screens = QtWidgets.QApplication.screens()
+        self.setGeometry(screens[1].availableGeometry())
         self.showMaximized()
 
         self.setWindowTitle("Engine Logger - Menu")
@@ -96,7 +105,7 @@ def main():
     #apply_stylesheet(app, theme='dark_red.xml')
 
     window = MainWindow(None)
-    window.show()
+    #window.show()
 
     sys.exit(app.exec_()) #PyQt6: exec(), PyQt5: exec_()
 
