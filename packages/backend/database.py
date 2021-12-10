@@ -172,7 +172,6 @@ class Operations():
                                                     timingcover_dowel TEXT,
                                                     maincap_dowel TEXT,
                                                     oilpump_dowel TEXT,
-                                                    head_dowel TEXT,
                                                     rearmainseal_adapter TEXT,
                                                     rearmainseal TEXT,
                                                     mainbearing TEXT,
