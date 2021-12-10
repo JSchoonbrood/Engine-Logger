@@ -50,6 +50,10 @@ class Widget(QtWidgets.QWidget):
 
         self.notes = QtWidgets.QTextEdit()
         self.grid_layout.addWidget(self.notes, 0, 6, 5, 1)
+        
+        # Row 4
+
+        self.table_data = QtWidgets.QTableWidget()
 
         # Row 2
 
@@ -118,9 +122,7 @@ class Widget(QtWidgets.QWidget):
         self.tunnel_input = QtWidgets.QLineEdit()
         self.grid_layout.addWidget(self.tunnel_input, 3, 5, 1, 1)
 
-        # Row 4
-
-        self.table_data = QtWidgets.QTableWidget()
+        # self.table_data needs to be initialised before self.cylinders_input
         self.setup_table()
         self.grid_layout.addWidget(self.table_data, 4, 0, 1, 6)
         self.cylinders_input.currentIndexChanged.connect(self.setup_table)
