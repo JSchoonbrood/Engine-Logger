@@ -106,11 +106,14 @@ def backend():
 def main():
     app = QtWidgets.QApplication(sys.argv)
     #apply_stylesheet(app, theme='dark_red.xml')
-    with open("packages/themes/universal_dark.qss", "r") as f:
-        _style = f.read()
-        app.setStyleSheet(_style)
+    
 
     window = MainWindow(None)
+
+    with open("packages/themes/universal_dark.qss", "r") as f:
+        _style = f.read()
+        window.setStyleSheet(_style)
+
     #window.show()
 
     sys.exit(app.exec_()) #PyQt6: exec(), PyQt5: exec_()
