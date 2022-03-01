@@ -18,6 +18,7 @@ from packages.engines import checklist
 from packages.backend import connection
 #from qt_material import apply_stylesheet
 
+# Adds support for MacOS + Windows
 if sys.platform == "darwin" or sys.platform == "darwin":
     directory = '/Library/Preferences/JSchoonbrood/EngineLogger/'
 elif sys.platform == "win32":
@@ -30,7 +31,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.construct_ui()
 
     def construct_ui(self):
-     
         self.setMinimumSize(QtCore.QSize(0, 0))
         screens = QtWidgets.QApplication.screens()
 
@@ -51,6 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setWindowTitle("Engine Logger - Menu")
 
+        # The stack containing all Widgets
         self.stack = QtWidgets.QStackedWidget()
         self.setCentralWidget(self.stack)
         self.show()
@@ -95,6 +96,7 @@ def backend():
     Path(os.path.join(directory, 'Manuals')).mkdir(parents=True, exist_ok=True)
     Path(os.path.join(directory, 'Gallery')).mkdir(parents=True, exist_ok=True) 
     
+    # Backend check to locate / create database
     if not (database.Operations(directory).locate_database()):
         database.Operations(directory).create_database()
     database.Operations(directory).backup_database()
@@ -112,7 +114,7 @@ def main():
 
     with open("packages/themes/universal_dark.qss", "r") as f:
         _style = f.read()
-        window.setStyleSheet(_style)
+        window.setStyleSheet(_style) # Sets external stylesheet to application wide widgets
 
     #window.show()
 
