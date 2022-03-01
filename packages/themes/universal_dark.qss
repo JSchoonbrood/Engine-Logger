@@ -1,8 +1,56 @@
-QPushButton {
-    background-color: #33373B;;
+/* Universal Application Wide Dark Theme */
+#menu { /* Requires .setObjectName() */
+    height: 45%;
+    font-size: 16pt; /* Only px, pt, em and ex are supported (making dynamic resolution changes difficult) */
+    color: #2ABf9E;
+}
+
+#engines-menu {
+    background-color: #33373B;
+    color: white
+}
+
+#engines-menu QHeaderView::section {
+    background-color: #33373B;
     color: white;
 }
 
-QPushButton::selected {
+#engines-menu::item {
+    background-color: #33373B;
+    size: 50%;
+}
+
+#engines-menu::item::selection:pressed {
     background-color: #2ABf9E;
 }
+
+QPushButton {
+    background-color: #33373B;
+    border: 0px;
+    color: white;
+    font-size: 14pt;
+}
+
+QStackedWidget {
+    background-color: #33373B;
+}
+
+QPushButton:focus {
+    background-color: #2ABf9E;
+}
+
+QLabel {
+    color: white;
+    font-size: 14pt;
+}
+
+QGridLayout {
+    background-color: #33373B;
+}
+
+QComboBox {
+    background-color: #33373B;
+    color: #2ABf9E;
+    font-size: 14pt;
+}
+
