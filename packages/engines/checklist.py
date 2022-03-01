@@ -4,12 +4,6 @@ from packages.backend import connection
 from packages.data import block
 from packages.data import pistons
 
-title_font = QtGui.QFont()
-title_font.setPointSize(18)
-
-main_font = QtGui.QFont()
-main_font.setPointSize(17)
-
 class Widget(QtWidgets.QWidget):
     IdRole = QtCore.Qt.UserRole + 1000
     title_signal = QtCore.Signal(str)
@@ -39,42 +33,35 @@ class Widget(QtWidgets.QWidget):
         # Job Switcher
 
         self.menu = QtWidgets.QComboBox()
-        self.menu.setFont(title_font)
+        self.menu.setObjectName("menu")
         self.menu_model = QtGui.QStandardItemModel()
         self.menu.currentIndexChanged.connect(self.id_updated)
+        self.menu.setFocusPolicy(QtCore.Qt.NoFocus)
 
         # Menu Buttons
 
         self.block_clearances = QtWidgets.QPushButton("Block")
         self.block_clearances.setObjectName("Block")
         self.block_clearances.clicked.connect(lambda: self.widget_change(self.block_clearances))
-        self.block_clearances.setFont(main_font)
+        self.block_clearances.setFocus()
 
         self.piston_label = QtWidgets.QPushButton("Pistons")
         self.piston_label.setObjectName("Piston")
         self.piston_label.clicked.connect(lambda: self.widget_change(self.piston_label))
-        self.piston_label.setFont(main_font)
         
         self.conrods_label = QtWidgets.QPushButton("ConRods")
-        self.conrods_label.setFont(main_font)
         
         self.balancing_label = QtWidgets.QPushButton("Balancing")
-        self.balancing_label.setFont(main_font)
         
         self.crank_label = QtWidgets.QPushButton("Crank / Bearings")
-        self.crank_label.setFont(main_font)
         
         self.oilpump_label = QtWidgets.QPushButton("Oil Pump")
-        self.oilpump_label.setFont(main_font)
         
         self.cylhead_label = QtWidgets.QPushButton("Cylinder Head")
-        self.cylhead_label.setFont(main_font)
         
         self.intcam_label = QtWidgets.QPushButton("Intake Cam")
-        self.intcam_label.setFont(main_font)
         
         self.exhcam_label = QtWidgets.QPushButton("Exhaust Cam")
-        self.exhcam_label.setFont(main_font)
 
         # Main Windows
 
