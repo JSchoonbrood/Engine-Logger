@@ -75,6 +75,7 @@ class Widget(QtWidgets.QWidget):
         # Main Body
 
         self.engines = QtWidgets.QTableWidget()
+        self.engines.setObjectName('engines-menu')
         self.engines.setFont(table_font)
         self.engines.setFocusPolicy(QtCore.Qt.NoFocus)
         self.engines.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
@@ -86,6 +87,7 @@ class Widget(QtWidgets.QWidget):
         header = self.engines.horizontalHeader()
         header.setFont(table_header_font)
         header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        header.setFocusPolicy(QtCore.Qt.NoFocus)
 
         self.engines.clicked.connect(self.send_data)
 
