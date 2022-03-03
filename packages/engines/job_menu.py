@@ -14,15 +14,16 @@ class Widget(QtWidgets.QWidget):
         self.setObjectName("job-menu")
         self.constrct_ui()
         self.populate_menu()
-
+        
     def constrct_ui(self):
         # Miscellaneous
 
-        self.spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        #self.spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
         # Layouts
 
         self.grid_layout = QtWidgets.QGridLayout()
+        self.grid_layout.setObjectName("main-layout")
         self.grid_layout.setContentsMargins(5, 5, 5, 5)
         self.grid_layout.setSpacing(5)
 
@@ -41,7 +42,7 @@ class Widget(QtWidgets.QWidget):
         self.menu.setFocusPolicy(QtCore.Qt.NoFocus)
 
         # Menu Buttons
-
+        
         self.block_clearances = QtWidgets.QPushButton("Block")
         self.block_clearances.setObjectName("Block")
         self.block_clearances.clicked.connect(lambda: self.widget_change(self.block_clearances))
