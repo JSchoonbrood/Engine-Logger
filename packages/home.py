@@ -19,6 +19,7 @@ class Widget(QtWidgets.QWidget):
         super(Widget, self).__init__()
         self.directory = str(directory)
         self.database = os.path.join(self.directory, 'Engines.db')
+        self.setObjectName("home")
         self.constrct_ui()
         self.read_database()
 
@@ -91,7 +92,7 @@ class Widget(QtWidgets.QWidget):
         #header.setFocusPolicy(QtCore.Qt.NoFocus)
         header.setSelectionMode(QtWidgets.QTableView.NoSelection)
 
-        self.engines.clicked.connect(self.send_data)
+        self.engines.doubleClicked.connect(self.send_data)
 
         self.grid_layout.addWidget(self.engines, 1, 0, 1, 5)
 
