@@ -1,9 +1,29 @@
 /* Universal Application Wide Dark Theme */
-#menu { /* Requires .setObjectName() */
+
+/* Requires .setObjectName() */
+#job-menu {
+    background-color: black;
+}
+
+#job-menu #jobswitcher { 
     height: 45%;
     font-size: 16pt; /* Only px, pt, em and ex are supported (making dynamic resolution changes difficult) */
-    color: #2ABf9E;
+    color: white;
+    background-color: black;
 }
+
+#job-menu #background {
+    background-color: black;
+}
+
+#job-menu QPushButton:focus {
+    background-color: #2ABf9E;
+}
+
+#job-menu QPushButton {
+    background-color: black;
+}
+
 
 #engines-menu {
     background-color: #33373B;
@@ -20,7 +40,7 @@
     size: 50%;
 }
 
-#engines-menu::item::selection:pressed {
+#engines-menu::item::selection:active {
     background-color: #2ABf9E;
 }
 
