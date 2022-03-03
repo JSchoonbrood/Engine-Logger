@@ -1,8 +1,28 @@
-/* Universal Application Wide Dark Theme */
+/* Dark Theme */
 
 /* Requires .setObjectName() */
+
+#app {
+    background-color: black;
+}
+
+#window {
+    background-color: black;
+}
+
+/* job-menu.py */
 #job-menu {
     background-color: black;
+    padding: 0;
+}
+
+#job-menu QLabel {
+    height: auto;
+}
+
+#job-menu #main-layout {
+    background-color: black;
+    padding: 0;
 }
 
 #job-menu #jobswitcher { 
@@ -13,7 +33,7 @@
 }
 
 #job-menu #background {
-    background-color: black;
+    background-color: #2f3136;
 }
 
 #job-menu QPushButton:focus {
@@ -21,29 +41,50 @@
 }
 
 #job-menu QPushButton {
-    background-color: black;
+    background-color: #23272a;
 }
 
-
-#engines-menu {
-    background-color: #33373B;
-    color: white
+/* home.py  */
+#home {
+    background-color: #2f3136;
 }
-
-#engines-menu QHeaderView::section {
-    background-color: #33373B;
+#home #engines-menu {
+    background-color: #2f3136;
     color: white;
 }
 
-#engines-menu::item {
-    background-color: #33373B;
-    size: 50%;
+#home QPushButton {
+    background-color: #23272a;
+    height: auto;
 }
 
-#engines-menu::item::selection:active {
+#home QPushButton:focus {
     background-color: #2ABf9E;
 }
 
+#home #engines-menu QHeaderView {
+    background-color: #33373B;
+    color: white;
+    font-weight: bold;
+    height: auto;
+}
+
+#home #engines-menu QHeaderView::section {
+    background-color: #33373B;
+    color: white;
+    
+}
+
+#home #engines-menu::item::content {
+    background-color: #33373B;
+}
+
+/* CSS Isn't powerful enough for this. Use Item Delegates */
+#home #engines-menu::item:focus { 
+    background-color: #2ABf9E;
+}
+
+/* Application Wide Theme */
 QPushButton {
     background-color: #33373B;
     border: 0px;
@@ -62,6 +103,7 @@ QPushButton:focus {
 QLabel {
     color: white;
     font-size: 14pt;
+    height: auto;
 }
 
 QGridLayout {
