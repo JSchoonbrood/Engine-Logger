@@ -6,11 +6,12 @@ from packages.data import pistons
 
 class Widget(QtWidgets.QWidget):
     IdRole = QtCore.Qt.UserRole + 1000
-    title_signal = QtCore.Signal(str)
+    job_id_signal = QtCore.Signal(str)
     def __init__(self, directory, job_id, parent):
         super(Widget, self).__init__()
         self.directory = str(directory)
         self.job_id = job_id
+        self.setObjectName("job-menu")
         self.constrct_ui()
         self.populate_menu()
 
@@ -26,6 +27,7 @@ class Widget(QtWidgets.QWidget):
         self.grid_layout.setSpacing(5)
 
         self.block_widget = QtWidgets.QWidget()
+        self.block_widget.setObjectName("background")
         self.block_layout = QtWidgets.QVBoxLayout()
         self.block_layout.setContentsMargins(0, 0, 0, 0)
         self.block_layout.setSpacing(1)
@@ -33,7 +35,7 @@ class Widget(QtWidgets.QWidget):
         # Job Switcher
 
         self.menu = QtWidgets.QComboBox()
-        self.menu.setObjectName("menu")
+        self.menu.setObjectName("jobswitcher")
         self.menu_model = QtGui.QStandardItemModel()
         self.menu.currentIndexChanged.connect(self.id_updated)
         self.menu.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -162,7 +164,7 @@ class Widget(QtWidgets.QWidget):
         cursor = database.query('''SELECT * From Jobs WHERE job_id = ?''', (self.job_id,))
 
         data = cursor.fetchone()
-        self.title_signal.emit(str(data[1]))
+        self.job_id_signal.emit(str(data[1]))
 
         database.close()
 
