@@ -14,7 +14,7 @@ table_font = QtGui.QFont()
 table_font.setPointSize(13)
 
 class Widget(QtWidgets.QWidget):
-    checklist_signal = QtCore.Signal(int)
+    job_menu_signal = QtCore.Signal(int)
     def __init__(self, directory, parent):
         super(Widget, self).__init__()
         self.directory = str(directory)
@@ -77,7 +77,8 @@ class Widget(QtWidgets.QWidget):
         self.engines = QtWidgets.QTableWidget()
         self.engines.setObjectName('engines-menu')
         self.engines.setFont(table_font)
-        self.engines.setFocusPolicy(QtCore.Qt.NoFocus)
+        #self.engines.setFocusPolicy(QtCore.Qt.NoFocus)
+        #self.engines.viewport().setFocusPolicy(QtCore.Qt.NoFocus)
         self.engines.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         self.engines.verticalHeader().setVisible(False)
 
@@ -87,7 +88,8 @@ class Widget(QtWidgets.QWidget):
         header = self.engines.horizontalHeader()
         header.setFont(table_header_font)
         header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        header.setFocusPolicy(QtCore.Qt.NoFocus)
+        #header.setFocusPolicy(QtCore.Qt.NoFocus)
+        header.setSelectionMode(QtWidgets.QTableView.NoSelection)
 
         self.engines.clicked.connect(self.send_data)
 
@@ -134,7 +136,7 @@ class Widget(QtWidgets.QWidget):
 
     def send_data(self, index):
         job_id = index.sibling(index.row(), 0).data()
-        self.checklist_signal.emit(int(job_id))
+        self.job_menu_signal.emit(int(job_id))
         return
 
     @QtCore.Slot()
