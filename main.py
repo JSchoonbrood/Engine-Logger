@@ -14,7 +14,7 @@ from pathlib import Path
 from packages import home
 from packages.backend import database
 from packages.backend import config
-from packages.engines import checklist
+from packages.engines import job_menu
 from packages.backend import connection
 #from qt_material import apply_stylesheet
 
@@ -57,18 +57,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show()
 
         self.home = home.Widget(directory, self)
-        self.home.checklist_signal.connect(self.switch_to_checklist)
+        self.home.job_menu_signal.connect(self.switch_to_job_menu)
 
         self.stack.addWidget(self.home)
         self.stack.setCurrentWidget(self.home)
 
     @QtCore.Slot(int)
-    def switch_to_checklist(self, job_id):
-        self.checklist = checklist.Widget(directory, job_id, self)
-        self.checklist.title_signal.connect(self.update_title)
+    def switch_to_job_menu(self, job_id):
+        self.job_menu = job_menu.Widget(directory, job_id, self)
+        self.job_menu.job_id_signal.connect(self.update_title)
         
-        self.stack.addWidget(self.checklist)
-        self.stack.setCurrentWidget(self.checklist)
+        self.stack.addWidget(self.job_menu)
+        self.stack.setCurrentWidget(self.job_menu)
         new_title = self.get_title(job_id)
         self.setWindowTitle(("Engine Logger - " + new_title))
 
