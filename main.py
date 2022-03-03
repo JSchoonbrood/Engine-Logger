@@ -27,6 +27,7 @@ elif sys.platform == "win32":
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        self.setObjectName("window")
         
         self.construct_ui()
 
@@ -107,6 +108,7 @@ def backend():
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setObjectName("app")
     #apply_stylesheet(app, theme='dark_red.xml')
     
 
