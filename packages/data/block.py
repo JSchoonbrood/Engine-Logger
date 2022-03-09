@@ -16,6 +16,9 @@ class Widget(QtWidgets.QWidget):
         self.constrct_ui()
 
     def constrct_ui(self):
+        
+        # Main UI Construction
+
         self.grid_layout = QtWidgets.QGridLayout()
         self.grid_layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.grid_layout.setContentsMargins(5, 5, 5, 5)
@@ -131,9 +134,12 @@ class Widget(QtWidgets.QWidget):
         self.setLayout(self.grid_layout)
 
     def setup_table(self):
+        # Table Setup
+        # Number of columns varies based on engine cylinder count
         columns = self.cylinders_input.currentText()
         self.table_data.setColumnCount(int(columns))
 
+        # Populates horizontal labels based on number of cylinders
         hor_labels = []
         for i in range(int(columns)):
             name = "Cyl " + str(i+1)
@@ -142,14 +148,13 @@ class Widget(QtWidgets.QWidget):
 
         ver_labels = ['Top Bore Size', 'Middle Bore Size', 'Lower Bore Size', 'Total Difference', 'Oval?']
         self.table_data.setRowCount(5)
-        self.table_data.setVerticalHeaderLabels(ver_labels)
+        self.table_data.setVerticalHeaderLabels(ver_labels) 
 
         hor_header = self.table_data.horizontalHeader()
-        #header.setFont(table_header_font)
-        hor_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        hor_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch) # Stretches table horizontally
 
         ver_header = self.table_data.verticalHeader()
-        ver_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        ver_header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch) # Stretches table vertically
 
 
 
