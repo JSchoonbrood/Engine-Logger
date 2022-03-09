@@ -10,6 +10,7 @@ main_font.setPointSize(17)
 class Widget(QtWidgets.QWidget):
     def __init__(self, directory, job_id, parent=None):
         super(Widget, self).__init__()
+        self.setObjectName("block")
         self.directory = str(directory)
         self.job_id = job_id
         self.constrct_ui()
