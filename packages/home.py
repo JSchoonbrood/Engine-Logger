@@ -4,15 +4,6 @@ from PySide2 import QtCore, QtGui, QtWidgets
 from packages.engines import wizard
 from packages.backend import connection
 
-button_font = QtGui.QFont()
-button_font.setPointSize(17)
-
-table_header_font = QtGui.QFont()
-table_header_font.setPointSize(15)
-
-table_font = QtGui.QFont()
-table_font.setPointSize(13)
-
 class Widget(QtWidgets.QWidget):
     job_menu_signal = QtCore.Signal(int)
     def __init__(self, directory, parent):
@@ -41,31 +32,26 @@ class Widget(QtWidgets.QWidget):
         self.header_layout.setObjectName("header_layout")
 
         self.engines_button = QtWidgets.QPushButton()
-        self.engines_button.setFont(button_font)
         self.engines_button.setObjectName("engines_button")
         self.engines_button.setText("Engines")
         self.header_layout.addWidget(self.engines_button, 0, 0, 1, 1)
 
         self.procedures_button = QtWidgets.QPushButton()
-        self.procedures_button.setFont(button_font)
         self.procedures_button.setObjectName("procedures_button")
         self.procedures_button.setText("Procedures")
         self.header_layout.addWidget(self.procedures_button, 0, 1, 1, 1)
 
         self.manuals_button = QtWidgets.QPushButton()
-        self.manuals_button.setFont(button_font)
         self.manuals_button.setObjectName("manuals_button")
         self.manuals_button.setText("Manuals")
         self.header_layout.addWidget(self.manuals_button, 0, 2, 1, 1)
 
         self.gallery_button = QtWidgets.QPushButton()
-        self.gallery_button.setFont(button_font)
         self.gallery_button.setObjectName("gallery_button")
         self.gallery_button.setText("Gallery")
         self.header_layout.addWidget(self.gallery_button, 0, 3, 1, 1)
 
         self.settings_button = QtWidgets.QPushButton()
-        self.settings_button.setFont(button_font)
         self.settings_button.setObjectName("settings_button")
         self.settings_button.setText("Settings")
         self.header_layout.addWidget(self.settings_button, 0, 4, 1, 1)
@@ -74,10 +60,8 @@ class Widget(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.header_widget, 0, 0, 1, 5)
 
         # Main Body
-
         self.engines = QtWidgets.QTableWidget()
         self.engines.setObjectName('engines-menu')
-        self.engines.setFont(table_font)
         #self.engines.setFocusPolicy(QtCore.Qt.NoFocus)
         #self.engines.viewport().setFocusPolicy(QtCore.Qt.NoFocus)
         self.engines.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
@@ -87,7 +71,6 @@ class Widget(QtWidgets.QWidget):
         self.engines.setHorizontalHeaderLabels(['ID', 'Title', 'Car', 'Engine', 'Build Date', 'Built By', 'Customer'])
 
         header = self.engines.horizontalHeader()
-        header.setFont(table_header_font)
         header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         #header.setFocusPolicy(QtCore.Qt.NoFocus)
         header.setSelectionMode(QtWidgets.QTableView.NoSelection)
@@ -113,10 +96,13 @@ class Widget(QtWidgets.QWidget):
         new_item.setFlags(new_item.flags() ^ QtCore.Qt.ItemIsEditable)
         return new_item
 
+    @QtCore.Slot()
     def read_database(self):
-        database = connection.Query(self.directory, self)
+        # Uses database wrapper
+        database = connection.Query(self.directory, self) 
         cursor = database.query('''SELECT * From Jobs''')
         
+        # Reads data from database and populates table with all jobs
         index = 0
         for row in cursor.fetchall():
             self.engines.setRowCount(index+1)
@@ -126,12 +112,13 @@ class Widget(QtWidgets.QWidget):
         
         database.close()
 
-        self.engines.setColumnHidden(0, True)
+        self.engines.setColumnHidden(0, True) # Hides database primary key column from table
         return
 
     def call_window(self):
+        # Calls additional window (wizard.py) to add new job
         self.add_window = wizard.AddWindow(self.directory, self)
-        self.add_window.db_signal.connect(self.update_database)
+        self.add_window.db_signal.connect(self.read_database)
         self.add_window.show()
         return
 
@@ -140,10 +127,4 @@ class Widget(QtWidgets.QWidget):
         self.job_menu_signal.emit(int(job_id))
         return
 
-    @QtCore.Slot()
-    def update_database(self):
-        self.read_database()
-        return
-
-    
         
