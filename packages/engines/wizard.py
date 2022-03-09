@@ -96,5 +96,5 @@ class AddWindow(QtWidgets.QMainWindow):
             self.build_date_entry.clear()
             self.built_by_entry.clear()
 
-            self.db_signal.emit()
+            self.db_signal.emit() # Emits signal to update job table on home.py
             
